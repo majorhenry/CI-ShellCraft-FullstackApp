@@ -5,8 +5,8 @@ on:
     branches:
       - main
     
-    schedule:
-      - cron: '0 0 * * 0'
+  schedule:
+    - cron: '0 0 * * 0'
 
 # Use a matrix strategy to use Node.js versions 16.x and 18.x
 jobs:
@@ -29,8 +29,8 @@ jobs:
       # Set up a Node.js environment using the specified node version.
       - name: Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
-          with:
-            node-version: ${{ matrix.node-version }}
+        with:
+          node-version: ${{ matrix.node-version }}
 
       # Install the dependencies.
       - name: Install Dependencies
@@ -47,4 +47,4 @@ jobs:
       # Send a console message at completion.
       - name: Print initiator
         run: |
-          echo "Hello ${{ github.actor}}. You pushed to ${{$GITHUB_REPOSITORY | cut -d'/' -f2}} at $(date)."."
+          echo "Hello ${{ github.actor}}. You pushed to ${{github.event.repository.name}} at $(date)."

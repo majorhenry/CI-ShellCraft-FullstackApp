@@ -1,2 +1,2 @@
 # CI-ShellCraft-FullstackApp
-ShellCraft sells hand made shell crafts
+ShellCraft sells hand made shell crafts.
