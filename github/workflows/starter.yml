@@ -1,0 +1,50 @@
+name: ShellCraft
+# Ensure the workflow runs on schedule (Sunday at 0:00) and on push to the main branch
+on:
+  push:
+    branches:
+      - main
+    
+    schedule:
+      - cron: '0 0 * * 0'
+
+# Use a matrix strategy to use Node.js versions 16.x and 18.x
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16, 18]
+        platform: [ubuntu-latest, macos-latest, windows-latest]
+        
+      fail-fast: false
+
+    steps:
+      # Check out the code from the repository.
+      - name: Checkout code
+        uses: actions/checkout@v3 
+
+      # Set up a Node.js environment using the specified node version.
+      - name: Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+          with:
+            node-version: ${{ matrix.node-version }}
+
+      # Install the dependencies.
+      - name: Install Dependencies
+        run: npm install
+
+      # Run the tests.
+      - name: Build and Test
+        run: npm run build && npm run test
+
+      # Run the linter.
+      - name: Run linter
+        run: npm test
+
+      # Send a console message at completion.
+      - name: Print initiator
+        run: |
+          echo "Hello ${{ github.actor}}. You pushed to ${{$GITHUB_REPOSITORY | cut -d'/' -f2}} at $(date)."."
